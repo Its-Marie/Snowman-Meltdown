@@ -13,19 +13,22 @@ def display_game_state(mistakes, secret_word, guessed_letters):
     print(f"Mistakes: {mistakes} / {len(STAGES) - 1}")
     print(STAGES[mistakes])
 
-    display_word = " ".join([letter if letter in guessed_letters else "_" for letter in secret_word])
+    display_word = " ".join([
+        letter if letter in guessed_letters else "_"
+        for letter in secret_word
+    ])
     print(f"Word:     {display_word}")
     print(f"Guessed:  {', '.join(sorted(guessed_letters)) if guessed_letters else 'None'}")
     print("=" * 40 + "\n")
 
 def play_game():
     secret_word = get_random_word()
-    guessed_letters =[]
+    guessed_letters = []
     mistakes = 0
-    max_mistakes = len(STAGES) -1
+    max_mistakes = len(STAGES) - 1
     print("Welcome to Snowman Meltdown!")
 
-    # Game-Loop
+    # Game loop
     while mistakes < max_mistakes:
         display_game_state(mistakes, secret_word, guessed_letters)
 
