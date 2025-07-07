@@ -9,17 +9,14 @@ def get_random_word():
     return WORDS[random.randint(0, len(WORDS) - 1)]
 
 def display_game_state(mistakes, secret_word, guessed_letters):
-    # Display the snowman stage for the current number of mistakes.
+    print("\n" + "=" * 40)
+    print(f"Mistakes: {mistakes} / {len(STAGES) - 1}")
     print(STAGES[mistakes])
-    # Build a display version of the secret word.
-    display_word = ""
-    for letter in secret_word:
-        if letter in guessed_letters:
-            display_word += letter + " "
-        else:
-            display_word += "_ "
-    print("Word: ", display_word)
-    print("\n")
+
+    display_word = " ".join([letter if letter in guessed_letters else "_" for letter in secret_word])
+    print(f"Word:     {display_word}")
+    print(f"Guessed:  {', '.join(sorted(guessed_letters)) if guessed_letters else 'None'}")
+    print("=" * 40 + "\n")
 
 def play_game():
     secret_word = get_random_word()
@@ -27,16 +24,15 @@ def play_game():
     mistakes = 0
     max_mistakes = len(STAGES) -1
     print("Welcome to Snowman Meltdown!")
-    print("Secret word selected: " + secret_word)  # for testing, later remove this line
 
     # Game-Loop
     while mistakes < max_mistakes:
         display_game_state(mistakes, secret_word, guessed_letters)
 
-        guess = input("Guess a letter: ").lower()
+        guess = input("Guess a letter: ").lower().strip()
 
         if not guess.isalpha() or len(guess) != 1:
-            print("Please enter a single letter.\n")
+            print("Please enter a single alphabetical letter.\n")
             continue
 
         if guess in guessed_letters:
@@ -58,5 +54,13 @@ def play_game():
     display_game_state(mistakes, secret_word, guessed_letters)
     print("The snowman melted! The word was:", secret_word)
 
+def main():
+    while True:
+        play_game()
+        again = input("\nDo you want to play again? (y/n): ").strip().lower()
+        if again != "y":
+            print("Thanks for playing Snowman Meltdown!")
+            break
+
 if __name__ == "__main__":
-    play_game()
+    main()
